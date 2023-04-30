@@ -25,6 +25,8 @@ if (isset($_GET['nrp'])) {
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daftar Mahasiswa</title>
 </head>
@@ -43,8 +45,17 @@ if (isset($_GET['nrp'])) {
           <a class="md:hidden inline-block bg-[#61764B] hover:bg-[#42542e] text-white px-4 py-2 rounded mr-8 show-modal-new" href="#">Tambah Data</a>
         </div>
       </div>
-      <a class="sm:hidden md:inline-block md:bg-[#61764B] md:hover:bg-[#42542e] md:text-white md:px-4 md:py-2 md:rounded md:mr-8 show-modal-new " href="#">Tambah Data</a>
+      <a class="sm:hidden md:inline-block bg-[#61764B] hover:bg-[#42542e] md:text-white md:px-4 md:py-2 md:rounded md:mr-8 show-modal-new " href="#">Tambah Data</a>
     </header>
+
+    <!-- Search and Sort -->
+    <div class="px-5 pb-2 w-full flex gap-1">
+        <input class="w-full h-8" type="text" name="keyword" id="keyword" placeholder="Cari data di sini">
+        <button id="search-button" class="w-8 h-8 bg-[#61764B] hover:bg-[#42542e] text-white"><i class='bx bx-search bx-xs p-2'></i></button>
+        <button id="sort-button" class="justify-center items-center flex w-8 h-8 bg-[#61764B] hover:bg-[#42542e] text-white"><i class='bx bx-sort bx-xs p-2' ></i></button>
+    </div>
+
+    <!-- Table -->
     <div class="px-5 pb-2 ">
       <div class="sm:items-center overflow-auto sm:w-full sm:border ">
         <table class="border container table-auto">
@@ -58,7 +69,7 @@ if (isset($_GET['nrp'])) {
               <th scope="col" class="py-2 border-r border">Email</th>
               <th scope="col" class="py-2 border-r border">Alamat</th>
               <th scope="col" class="py-2 border-r border">No HP</th>
-              <th scope="col" class="py-2 border-r border">Status</th>
+              <th scope="col" class="py-2 border-r border">Foto</th>
               <th scope="col" class="py-2 border">Aksi</th>
             </tr>
           </thead>
@@ -127,7 +138,7 @@ if (isset($_GET['nrp'])) {
               <label for="jenis_kelamin" class="label_jenis_kelamin text-black w-full max-w-xl rounded-md bg-white p-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow hover:text-sky-600 hover:ring-blue-400 hover:ring-offset-2 peer-checked:bg-blue-900 peer-checked:text-white mx-2">Laki-Laki</label>
             </div>
             <div class="w-1/2 text-center">
-              <input class="hidden peer" type="radio" name="jenis_kelamin" value="perempuan" >
+              <input class="hidden peer" type="radio" name="jenis_kelamin" value="perempuan">
               <label for="jenis_kelamin" class="label_jenis_kelamin text-black w-full max-w-xl rounded-md bg-white p-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow hover:text-sky-600 hover:ring-blue-400 hover:ring-offset-2 peer-checked:bg-blue-900 peer-checked:text-white mx-2">Perempuan</label>
             </div>
           </div>
@@ -142,7 +153,7 @@ if (isset($_GET['nrp'])) {
           </div>
           <div>
             <label for="email"></label>
-            <input class="border border-grey-400 py-2 px-2 w-full my-1" type="email" name="email" placeholder="Email" required/>
+            <input class="border border-grey-400 py-2 px-2 w-full my-1" type="email" name="email" placeholder="Email" required />
           </div>
           <div>
             <label for="alamat"></label>
@@ -203,7 +214,7 @@ if (isset($_GET['nrp'])) {
               <label for="edit_jenis_kelamin" class="label_edit_jenis_kelamin text-black w-full max-w-xl rounded-md bg-white p-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow hover:text-sky-600 hover:ring-blue-400 hover:ring-offset-2 peer-checked:bg-blue-900 peer-checked:text-white mx-2">Laki-Laki</label>
             </div>
             <div class="w-1/2 text-center">
-              <input class="hidden peer" type="radio" name="edit_jenis_kelamin" value="perempuan" >
+              <input class="hidden peer" type="radio" name="edit_jenis_kelamin" value="perempuan">
               <label for="edit_jenis_kelamin" class="label_edit_jenis_kelamin text-black w-full max-w-xl rounded-md bg-white p-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow hover:text-sky-600 hover:ring-blue-400 hover:ring-offset-2 peer-checked:bg-blue-900 peer-checked:text-white mx-2">Perempuan</label>
             </div>
           </div>
@@ -228,16 +239,16 @@ if (isset($_GET['nrp'])) {
             <input class="border border-grey-400 py-2 px-2 w-full my-1" id="no_hp" type="number" name="no_hp" placeholder="Masukkan No HP..." />
           </div>
           <label for="edit_status">Status: </label>
-            <div class="flex my-4 px-4">
-              <div class="w-1/2 text-center">
-                <input class="hidden peer" type="radio" name="edit_status" value="Aktif">
-                <label for="edit_status" class="label_edit_status text-black w-72 max-w-xl rounded-md bg-white p-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow hover:text-green-400 hover:ring-emerald-400 hover:ring-offset-2 peer-checked:bg-green-900 peer-checked:text-white mx-2">Aktif</label>
-              </div>
-              <div class="w-1/2 text-center">
-                <input class="hidden peer" type="radio" name="edit_status" value="Cuti">
-                <label for="edit_status" class="label_edit_status text-black w-72 max-w-xl rounded-md bg-white p-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow hover:text-red-400 hover:ring-rose-400 hover:ring-offset-2 peer-checked:bg-red-900 peer-checked:text-white mx-2">Cuti</label>
-              </div>
+          <div class="flex my-4 px-4">
+            <div class="w-1/2 text-center">
+              <input class="hidden peer" type="radio" name="edit_status" value="Aktif">
+              <label for="edit_status" class="label_edit_status text-black w-72 max-w-xl rounded-md bg-white p-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow hover:text-green-400 hover:ring-emerald-400 hover:ring-offset-2 peer-checked:bg-green-900 peer-checked:text-white mx-2">Aktif</label>
             </div>
+            <div class="w-1/2 text-center">
+              <input class="hidden peer" type="radio" name="edit_status" value="Cuti">
+              <label for="edit_status" class="label_edit_status text-black w-72 max-w-xl rounded-md bg-white p-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow hover:text-red-400 hover:ring-rose-400 hover:ring-offset-2 peer-checked:bg-red-900 peer-checked:text-white mx-2">Cuti</label>
+            </div>
+          </div>
           <div class="flex justify-end items-center w-100 border-t p-3">
             <a class="close-modal-edit inline-block bg-red-200 p-2 rounded bg-opacity-50 text-red-500 font-medium hover:bg-red-400 hover:text-red-700 hover:bg-opacity-50 m-1" href="#">Batal</a>
             <button class="inline-block bg-green-200 p-2 rounded bg-opacity-50 text-green-500 font-medium hover:bg-green-400 hover:text-green-700 hover:bg-opacity-50 m-1" type="submit">Simpan</button>
@@ -327,7 +338,7 @@ if (isset($_GET['nrp'])) {
         document.getElementsByName('edit_jenis_kelamin')[index].checked = true;
 
         index = status == 'Aktif' ? 0 : 1;
-        console.log('testing',document.getElementsByName('edit_status'));
+        console.log('testing', document.getElementsByName('edit_status'));
         document.getElementsByName('edit_status')[index == 0 ? 1 : 0].checked = false;
         document.getElementsByName('edit_status')[index].checked = true;
         document.getElementById('jurusan').value = jurusan;
@@ -364,7 +375,7 @@ if (isset($_GET['nrp'])) {
     const labelStatusEdit = document.getElementsByClassName('label_edit_status');
     labelStatusEdit[0].addEventListener('click', function() {
       console.log('hello');
-    console.log('edit status',statusButtonEdit[0]);
+      console.log('edit status', statusButtonEdit[0]);
       statusButtonEdit[0].checked = true;
       statusButtonEdit[1].checked = false;
     });
@@ -374,6 +385,7 @@ if (isset($_GET['nrp'])) {
       statusButtonEdit[0].checked = false;
     });
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
 </body>
 
 </html>
