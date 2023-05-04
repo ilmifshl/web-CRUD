@@ -1,22 +1,9 @@
 <?php
-include('connect.php');
+include("functions.php");
 
-// if (!isset($_GET["nrp"])) {
-//   header("Location: index.php");
-// }
-
-if (isset($_GET['nrp'])) {
-  $nrp = $_GET["nrp"];
-  $sql = "SELECT * FROM STUDENT WHERE nrp = $nrp";
-  $query = mysqli_query($db, $sql);
-  $mahasiswa = mysqli_fetch_assoc($query);
-  echo $mahasiswa;
-  if (mysqli_num_rows($query) < 1) {
-    die("Data tidak ditemukan...");
-  }
-}
+$students = query("SELECT * FROM MAHASISWA");
+$admins = query("SELECT * FROM ADMIN");
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,362 +13,199 @@ if (isset($_GET['nrp'])) {
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daftar Mahasiswa</title>
 </head>
 
-<body class="bg-[#C0C9BA]">
-  <div class="bg-white m-4 rounded-md drop-shadow-md">
-    <header class="flex justify-between items-center mb-2 ">
+<body>
+  <div class="flex">
+    <div class="h-screen w-1/5 border-r border-slate-300">
+      <!-- Logo -->
+      <div class="flex text-center items-center justify-center pt-6 pb-4 px-4 gap-x-2">
+        <img class="h-14 w-14" src="./image/school.png" alt="">
+        <h1 class="text-3xl text-slate-700 text-center font-semibold">PENS</h1>
+      </div>
+
+      <!-- Menu -->
       <div class="">
-        <div class="sm:w-screen md:w-auto">
-          <h1 class="font-bold md:text-3xl md:mx-4 md:mt-4 sm:mx-auto sm:text-center md:text-left text-4xl whitespace-nowrap ">Daftar Mahasiswa</h1>
+        <div class="flex items-center pl-6 py-3 text-[#51DD90] w-full h-full border-[#51DD90] border-l-4">
+          <i class='bx bx-file-blank text-xl'></i>
+          <p class="px-2 font-semibold">Database</p>
         </div>
-        <div>
-          <h3 class="font-normal md:text-md md:ml-4 sm:text-center md:text-left md:pt-0 md:text-gray-600">Daftar seluruh mahasiswa DTIK</h3>
+        <div class="flex items-center pl-6 py-3 text-slate-400 hover:text-[#51DD90] w-full h-full">
+          <i class='bx bx-file-blank text-xl'></i>
+          <p class="px-2 font-semibold ">Database</p>
         </div>
-        <div class="pl-4 px-1">
-          <a class="md:hidden inline-block bg-[#61764B] hover:bg-[#42542e] text-white px-4 py-2 rounded mr-8 show-modal-new" href="#">Tambah Data</a>
+        <div class="flex items-center pl-6 py-3 text-slate-400 hover:text-[#51DD90] w-full h-full">
+          <i class='bx bx-file-blank text-xl'></i>
+          <p class="px-2 font-semibold ">Database</p>
         </div>
       </div>
-      <a class="sm:hidden md:inline-block bg-[#61764B] hover:bg-[#42542e] md:text-white md:px-4 md:py-2 md:rounded md:mr-8 show-modal-new " href="#">Tambah Data</a>
-    </header>
-
-    <!-- Search and Sort -->
-    <div class="px-5 pb-2 w-full flex gap-1">
-      <input class="w-full h-8 border-2 rounded focus:outline-none px-4" type="text" name="keyword" id="keyword" placeholder="Cari data di sini">
-      <button id="search-button" class="rounded w-8 h-8 bg-[#61764B] hover:bg-[#42542e] text-white"><i class='bx bx-search bx-xs p-2'></i></button>
-      <button id="sort-button" class="rounded justify-center items-center flex w-8 h-8 bg-[#61764B] hover:bg-[#42542e] text-white"><i class='bx bx-sort bx-xs p-2'></i></button>
     </div>
 
-    <!-- Table -->
-    <div class="px-5 pb-2 ">
-      <div class="sm:items-center overflow-auto sm:w-full sm:border ">
-        <table class="border container table-auto">
-          <thead class="table-auto">
-            <tr>
-              <th scope="col" class="py-2 border-r border">No</th>
-              <th scope="col" class="py-2 border-r border">NRP</th>
-              <th scope="col" class="py-2 border-r border">Nama</th>
-              <th scope="col" class="py-2 border-r border">Jenis Kelamin</th>
-              <th scope="col" class="py-2 border-r border">Jurusan</th>
-              <th scope="col" class="py-2 border-r border">Email</th>
-              <th scope="col" class="py-2 border-r border">Alamat</th>
-              <th scope="col" class="py-2 border-r border">No HP</th>
-              <th scope="col" class="py-2 border-r border">Foto</th>
-              <th scope="col" class="py-2 border">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-            $i = 1;
-            $sql = "SELECT * FROM mahasiswa";
-            $query = mysqli_query($db, $sql);
+    <div class="w-full p-6">
+      <div class="flex justify-between">
+        <div class="relative">
+          <input type="text" id="keyword" class="w-80 rounded border border-[#bfbfbf] bg-[#F5F5F5] h-full pl-8 py-2 focus:outline-none" placeholder="Cari data disini..." autocomplete="off">
+          <button id="search-button" class="absolute inset-y-[20%] left-2 text-lg"><i class='bx bx-search'></i></button>
+        </div>
 
-            while ($mahasiswa = mysqli_fetch_array($query)) {
-              echo "<tr>";
+        <div class="flex items-center gap-x-4">
+          <button id="dropdownDefaultButton" class="flex items-center" data-dropdown-toggle="dropdown">
+            <img src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250" alt="" class="rounded-full w-9 mr-3">
+            <h2 class="font-semibold mr-5">Ujang Supriyadi</h2>
+            <i class='bx bxs-chevron-down rounded cursor-pointer text-[#4b5563] pt-1'></i>
+          </button>
+          <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-[0_5px_20px_rgba(92,99,105,0.3)] w-44" style="left: -32px !important">
+            <ul class="py-2 text-sm" aria-labelledby="dropdownDefaultButton">
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
+              </li>
+              <li>
+                <a href="./controller/logout.php" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
 
-              echo "<th scope='row' class='whitespace-nowrap py-2 border-r border-b px-2'>" . $i . "</th>";
-              echo "<td class='whitespace-nowrap py-2 border-r border-b px-2'>" . $mahasiswa['nrp'] . "</td>";
-              echo "<td class='whitespace-nowrap py-2 border-r border-b px-2'>" . $mahasiswa['nama'] . "</td>";
-              echo "<td class='whitespace-nowrap py-2 border-r border-b px-2'>" . $mahasiswa['jenis_kelamin'] . "</td>";
-              echo "<td class='whitespace-nowrap py-2 border-r border-b px-2'>" . $mahasiswa['jurusan'] . "</td>";
-              echo "<td class='whitespace-nowrap py-2 border-r border-b px-2'>" . $mahasiswa['email'] . "</td>";
-              echo "<td class='whitespace-nowrap py-2 border-r border-b px-2'>" . $mahasiswa['alamat'] . "</td>";
-              echo "<td class='whitespace-nowrap py-2 border-r border-b px-2'>" . $mahasiswa['no_hp'] . "</td>";
-
-              echo "<td class='whitespace-nowrap py-2 border-r border-b px-2 items-center text-center'>";
-              echo "<a class='rounded font-semibold text-blue-400 hover:text-blue-600'>Download</a>";
-              "</td>";
-
-              // Aksi
-              echo "<td class='text-center border-b px-2'>";
-              // Edit
-              echo "<a class='font-semibold text-yellow-600 hover:text-yellow-900 show-modal-edit' data-nrp='" . $mahasiswa['nrp'] . "' data-nama='" . $mahasiswa['nama'] . "'data-jenis_kelamin='" . $mahasiswa['jenis_kelamin'] . "'data-jurusan='" . $mahasiswa['jurusan'] . "'data-email='" . $mahasiswa['email'] . "'data-alamat='" . $mahasiswa['alamat'] . "'data-no_hp='" . $mahasiswa['no_hp'] . "'data-status='" . $mahasiswa['status'] . "' href=''>Edit</a> <span class='sm:hidden md:inline'>|</span> ";
-
-              // Hapus
-              echo "<a class='font-semibold text-red-600 hover:text-red-900' href='controller/hapus.php?nrp=" . $mahasiswa['nrp'] . "'>Hapus</a>";
-              echo "</td>";
-
-              echo "</tr>";
-              $i++;
-            }
-
-            ?>
-
-          </tbody>
-        </table>
       </div>
+      <div class="flex mt-10 mb-4 justify-between">
+        <p class="font-bold text-2xl w-10/12">Database</p>
+        <div class="flex gap-x-2">
+          <a href="https://google.com" class="flex justify-center items-center text-slate-400 bg-slate-200 hover:text-slate-600 hover:bg-slate-400 px-3 py-1 gap-x-1 rounded-md">
+            <p>Sort</p>
+            <i class='bx bx-sort-down pt-1'></i>
+          </a>
+          <a href="." class="flex justify-center items-center bg-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-400 px-3 py-1 gap-x-1 rounded-md">
+            <p>Add</p>
+            <i class='bx bx-plus pt-1'></i>
+          </a>
+        </div>
+      </div>
+
+
+      <div class="mb-4 border-b border-gray-200">
+        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+          <li class="mr-2" role="presentation">
+            <button class="inline-block p-4 border-b-2 rounded-t-lg aria-selected:text-[#51DD90] aria-selected:border-b-2 aria-selected:border-[#51DD90] hover:aria-selected:text-[#51DD90] hover:text-[#40b374]" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Mahasiswa</button>
+          </li>
+          <li class="mr-2" role="presentation">
+            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-[#51DD90] aria-selected:border-b-2 aria-selected:border-[#51DD90] hover:aria-selected:text-[#51DD90] hover:text-[#40b374]" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Admin</button>
+          </li>
+
+        </ul>
+      </div>
+      <div id="myTabContent">
+        <!-- Tabel Mahasiswa -->
+        <div class="hidden" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+          <div class="relative overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-500">
+              <thead class="text-xs text-gray-700 uppercase bg-white">
+                <tr>
+                  <th scope="col" class="px-6 py-4 text-sm">
+                    Nama
+                  </th>
+                  <th scope="col" class="px-6 py-4 text-sm">
+                    NRP
+                  </th>
+                  <th scope="col" class="px-6 py-4 text-sm">
+                    Kelamin
+                  </th>
+                  <th scope="col" class="px-6 py-4 text-sm">
+                    Jurusan
+                  </th>
+                  <th scope="col" class="px-6 py-4 text-sm">
+                    Email
+                  </th>
+                  <th scope="col" class="px-6 py-4 text-sm text-center">
+                    Aksi
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php $i = 0; ?>
+                <?php foreach($students as $student) : ?>
+                <tr class="bg-<?= $i % 2 == 1 ? 'white' : '[#F1F9F6]'?>">
+                  <td class="px-6 py-4 inline-flex items-center gap-x-3">
+                    <img src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250" alt="" class="w-10 rounded-full">
+                    <p><?= $student["nama"] ?></p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <?= $student["nrp"] ?>
+                  </td>
+                  <td class="px-6 py-4">
+                    <?= $student["jenis_kelamin"] ?>
+                  </td>
+                  <td class="px-6 py-4">
+                    <?= $student["jurusan"] ?>
+                  </td>
+                  <td class="px-6 py-4">
+                    <?= $student["email"] ?>
+                  </td>
+                  <td class="px-6 py-4 flex justify-center gap-x-2">
+                    <a href="#" class="px-2 py-1.5 bg-[#20a85e] hover:bg-[#1a9653] rounded"><i class='bx bxs-download text-white'></i></a>
+                    <a href="#" class="px-2 py-1.5 bg-[#20a85e] hover:bg-[#1a9653] rounded"><i class='bx bxs-edit text-white'></i></a>
+                    <a href="#" class="px-2 py-1.5 bg-[#dc2626] hover:bg-[#c22121] rounded"><i class='bx bxs-trash text-white'></i></a>
+                  </td>
+                </tr>
+                <?php $i++; ?>
+                <?php endforeach?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tabel Admin -->
+        <div class="hidden" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+        <div class="relative overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-500">
+              <thead class="text-xs text-gray-700 uppercase bg-white">
+                <tr>
+                  <th scope="col" class="px-6 py-4 text-sm">
+                    No
+                  </th>
+                  <th scope="col" class="px-6 py-4 text-sm">
+                    Nama
+                  </th>
+                  <th scope="col" class="px-6 py-4 text-sm">
+                    Username
+                  </th>
+                  <th scope="col" class="px-6 py-4 text-sm">
+                    Email
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php $j = 1; ?>
+                <?php foreach($admins as $admin) : ?>
+                <tr class="bg-<?= $i % 2 == 1 ? 'white' : '[#F1F9F6]'?>">
+                  <td class="px-6 py-4 inline-flex items-center gap-x-3">
+                    <p><?= $j++ ?></p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <?= $admin["nama"] ?>
+                  </td>
+                  <td class="px-6 py-4">
+                    <?= $admin["username"] ?>
+                  </td>
+                  <td class="px-6 py-4">
+                    <?= $admin["email"] ?>
+                  </td>
+                </tr>
+                <?php endforeach?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
     </div>
   </div>
-
-  <!-- Modal Tambah Data Start -->
-  <div class="modal-new fixed left-0 top-0 h-full w-full flex justify-center items-center hidden">
-    <form class="flex md:w-2/6 justify-center items-center" action="controller/tambah.php" method="POST" enctype="multipart/form-data">
-      <div class="bg-white w-full rounded shadow-lg place-content-center">
-        <div class="border-b px-4 py-2">
-          <h1 class="font-bold text-xl">Tambah Data</h1>
-        </div>
-        <div class="p-3">
-          <div>
-            <label for="nrp"></label>
-            <input class="border border-grey-400 py-2 px-2 w-full my-1" type="number" name="nrp" placeholder="NRP" required />
-          </div>
-          <div>
-            <label for="nama"></label>
-            <input class="border border-grey-400 py-2 px-2 w-full my-1" type="text" pattern="[A-Za-z ]+" name="nama" placeholder="Nama Lengkap" required />
-          </div>
-
-          <div class="flex my-4 px-4">
-            <label class="flex w-2/5 pt-0.5" for="jenis_kelamin">Jenis Kelamin:</label>
-            <div class="w-1/2 pt-1 text-center">
-              <input class="hidden peer" type="radio" name="jenis_kelamin" value="laki-laki" checked>
-              <label for="jenis_kelamin" class="label_jenis_kelamin text-black w-full max-w-xl rounded-md bg-white p-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow hover:text-sky-600 hover:ring-blue-400 hover:ring-offset-2 peer-checked:bg-blue-900 peer-checked:text-white mx-2">Laki-Laki</label>
-            </div>
-            <div class="w-1/2 pt-1 text-center">
-              <input class="hidden peer" type="radio" name="jenis_kelamin" value="perempuan">
-              <label for="jenis_kelamin" class="label_jenis_kelamin text-black w-full max-w-xl rounded-md bg-white p-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow hover:text-sky-600 hover:ring-blue-400 hover:ring-offset-2 peer-checked:bg-blue-900 peer-checked:text-white mx-2">Perempuan</label>
-            </div>
-          </div>
-
-          <div>
-            <label for="jurusan"></label>
-            <select class="border border-b p-2 w-full my-1" name="jurusan" required>
-              <option value="">-- Pilih Jurusan --</option>
-              <option value="Teknik Informatika">Teknik Informatika</option>
-              <option value="Sains Data Terapan">Sains Data Terapan</option>
-            </select>
-          </div>
-          <div>
-            <label for="email"></label>
-            <input class="border border-grey-400 py-2 px-2 w-full my-1" type="email" name="email" placeholder="Email" required />
-          </div>
-          <div>
-            <label for="alamat"></label>
-            <textarea class="border border-grey-400 py-2 px-2 w-full my-1" name="alamat" placeholder="Alamat" required></textarea>
-          </div>
-          <div>
-            <label for="no_hp"></label>
-            <input class="border border-grey-400 py-2 px-2 w-full my-1" type="number" name="no_hp" min="12" placeholder="No HP" required />
-          </div>
-
-          <!--  Upload File -->
-          <div class="block rounded">
-            <label for="foto">Foto: </label>
-            <input id="foto" class="block w-full text-sm text-slate-500 mb-2 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" type="file" name="foto" required />
-          </div>
-
-          <div class="flex justify-end items-center w-100 border-t p-3">
-            <a class="close-modal-new inline-block bg-red-200 p-2 rounded bg-opacity-50 text-red-500 font-medium hover:bg-red-400 hover:text-red-700 hover:bg-opacity-50 m-1" href="#">Batal</a>
-            <button class="inline-block bg-green-200 p-2 rounded bg-opacity-50 text-green-500 font-medium hover:bg-green-400 hover:text-green-700 hover:bg-opacity-50 m-1" href="#" type="submit" name="tambah">Tambah</button>
-          </div>
-        </div>
-      </div>
-    </form>
-    <div class="close-modal-new bg-edit bg-black w-full h-full bg-opacity-50 absolute -z-10">
-    </div>
-  </div>
-  <!-- Modal Tambah Data End -->
-  <!-- Modal Edit Data Start -->
-  <div class="modal-edit fixed left-0 top-0 h-full w-full flex justify-center items-center hidden">
-    <form class="flex md:w-2/6 justify-center items-center" action="controller/edit.php" method="POST">
-      <div class="bg-white w-full rounded shadow-lg place-content-center">
-        <div class="border-b px-4 py-2">
-          <h1 class="font-bold text-xl">Edit Data</h1>
-        </div>
-        <div class="p-3">
-          <input type="number" class="hidden" name="nrp_awal" id="nrp_awal" placeholder="Masukkan NRP..." />
-
-          <div>
-            <label for="nrp"></label>
-            <input class="border border-grey-400 py-2 px-2 w-full my-1" id="nrp" type="number" name="nrp" placeholder="Masukkan NRP..." />
-          </div>
-          <div>
-            <label for="nama"></label>
-            <input class="border border-grey-400 py-2 px-2 w-full my-1" id="nama" type="text" pattern="[A-Za-z ]+" name="nama" placeholder="Masukkan Nama Lengkap..." />
-
-          </div>
-
-          <div class="flex my-4 px-4">
-            <label class="flex w-2/5 pt-0.5" for="edit_jenis_kelamin">Jenis Kelamin:</label>
-            <div class="w-1/2 pt-1 text-center">
-              <input class="hidden peer" type="radio" name="edit_jenis_kelamin" value="laki-laki" checked>
-              <label for="edit_jenis_kelamin" class="label_edit_jenis_kelamin text-black w-full max-w-xl rounded-md bg-white p-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow hover:text-sky-600 hover:ring-blue-400 hover:ring-offset-2 peer-checked:bg-blue-900 peer-checked:text-white mx-2">Laki-Laki</label>
-            </div>
-            <div class="w-1/2 pt-1 text-center">
-              <input class="hidden peer" type="radio" name="edit_jenis_kelamin" value="perempuan">
-              <label for="edit_jenis_kelamin" class="label_edit_jenis_kelamin text-black w-full max-w-xl rounded-md bg-white p-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow hover:text-sky-600 hover:ring-blue-400 hover:ring-offset-2 peer-checked:bg-blue-900 peer-checked:text-white mx-2">Perempuan</label>
-            </div>
-          </div>
-
-          <div>
-            <label for="jurusan"></label>
-            <select class="border border-b p-2 w-full my-1" id="jurusan" name="jurusan">
-              <option value="Teknik Informatika">Teknik Informatika</option>
-              <option value="Sains Data Terapan">Sains Data Terapan</option>
-            </select>
-          </div>
-          <div>
-            <label for="email"></label>
-            <input class="border border-grey-400 py-2 px-2 w-full my-1" id="email" type="email" name="email" placeholder="Masukkan email ..." />
-          </div>
-          <div>
-            <label for="alamat"></label>
-            <textarea class="border border-grey-400 py-2 px-2 w-full my-1" id="alamat" name="alamat" placeholder="Masukkan Alamat..."></textarea>
-          </div>
-          <div>
-            <label for="no_hp"></label>
-            <input class="border border-grey-400 py-2 px-2 w-full my-1" id="no_hp" type="number" name="no_hp" placeholder="Masukkan No HP..." />
-          </div>
-          <label for="edit_status">Status: </label>
-          <div class="flex my-4 px-4">
-            <div class="w-1/2 text-center">
-              <input class="hidden peer" type="radio" name="edit_status" value="Aktif">
-              <label for="edit_status" class="label_edit_status text-black w-72 max-w-xl rounded-md bg-white p-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow hover:text-green-400 hover:ring-emerald-400 hover:ring-offset-2 peer-checked:bg-green-900 peer-checked:text-white mx-2">Aktif</label>
-            </div>
-            <div class="w-1/2 text-center">
-              <input class="hidden peer" type="radio" name="edit_status" value="Cuti">
-              <label for="edit_status" class="label_edit_status text-black w-72 max-w-xl rounded-md bg-white p-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow hover:text-red-400 hover:ring-rose-400 hover:ring-offset-2 peer-checked:bg-red-900 peer-checked:text-white mx-2">Cuti</label>
-            </div>
-          </div>
-          <div class="flex justify-end items-center w-100 border-t p-3">
-            <a class="close-modal-edit inline-block bg-red-200 p-2 rounded bg-opacity-50 text-red-500 font-medium hover:bg-red-400 hover:text-red-700 hover:bg-opacity-50 m-1" href="#">Batal</a>
-            <button class="inline-block bg-green-200 p-2 rounded bg-opacity-50 text-green-500 font-medium hover:bg-green-400 hover:text-green-700 hover:bg-opacity-50 m-1" type="submit">Simpan</button>
-          </div>
-        </div>
-      </div>
-    </form>
-    <div class="close-modal-edit bg-edit bg-black w-full h-full bg-opacity-50 absolute -z-10">
-    </div>
-
-  </div>
-  <!-- Modal Edit Data End -->
-
-  <script>
-    // Modal New
-    const modalNew = document.querySelector('.modal-new');
-
-    const showModalNew = document.querySelectorAll('.show-modal-new');
-    for (var i = 0; i < showModalNew.length; i++) {
-      showModalNew[i].addEventListener('click', function() {
-        modalNew.classList.remove('hidden');
-      });
-    }
-
-    const closeModalNew = document.querySelectorAll('.close-modal-new');
-    for (var i = 0; i < closeModalNew.length; i++) {
-      document.querySelectorAll('.bg-edit')[i].addEventListener('click', function() {
-        modalNew.classList.add('hidden')
-
-      });
-      closeModalNew[i].addEventListener('click', function() {
-        modalNew.classList.add('hidden')
-      });
-    }
-
-    const jkButton = document.getElementsByName('jenis_kelamin');
-    const labelJk = document.getElementsByClassName('label_jenis_kelamin');
-    console.log(labelJk)
-    labelJk[0].addEventListener('click', function() {
-      jkButton[0].checked = true;
-      jkButton[1].checked = false;
-    });
-
-    labelJk[1].addEventListener('click', function() {
-      jkButton[1].checked = true;
-      jkButton[0].checked = false;
-    });
-
-    const statusButton = document.getElementsByName('status');
-    const labelStatus = document.getElementsByClassName('label_status');
-    labelStatus[0].addEventListener('click', function() {
-      statusButton[0].checked = true;
-      statusButton[1].checked = false;
-    });
-
-    labelStatus[1].addEventListener('click', function() {
-      statusButton[1].checked = true;
-      statusButton[0].checked = false;
-    });
-    // Modal Edit
-    const modalEdit = document.querySelector('.modal-edit');
-
-    const showModalEdit = document.querySelectorAll('.show-modal-edit');
-    for (var i = 0; i < showModalEdit.length; i++) {
-      console.log('index', i);
-      const nrp = showModalEdit[i].getAttribute('data-nrp');
-      const nama = showModalEdit[i].getAttribute('data-nama');
-      const email = showModalEdit[i].getAttribute('data-email');
-      const alamat = showModalEdit[i].getAttribute('data-alamat');
-      const no_hp = showModalEdit[i].getAttribute('data-no_hp');
-      const jenis_kelamin = showModalEdit[i].getAttribute('data-jenis_kelamin');
-      const jurusan = showModalEdit[i].getAttribute('data-jurusan');
-      const status = showModalEdit[i].getAttribute('data-status');
-
-      showModalEdit[i].addEventListener('click', function(event) {
-        event.preventDefault();
-        modalEdit.setAttribute('data', "nrp: " + nrp);
-        modalEdit.classList.remove('hidden');
-        document.getElementById('nrp').setAttribute('value', nrp);
-        document.getElementById('nrp_awal').setAttribute('value', nrp);
-        document.getElementById('nama').setAttribute('value', nama);
-        document.getElementById('email').setAttribute('value', email);
-        document.getElementById('alamat').value = alamat;
-        document.getElementById('no_hp').setAttribute('value', no_hp);
-
-        var index = jenis_kelamin == 'Laki-laki' ? 0 : 1;
-        document.getElementsByName('edit_jenis_kelamin')[index == 0 ? 1 : 0].checked = false;
-        document.getElementsByName('edit_jenis_kelamin')[index].checked = true;
-
-        index = status == 'Aktif' ? 0 : 1;
-        console.log('testing', document.getElementsByName('edit_status'));
-        document.getElementsByName('edit_status')[index == 0 ? 1 : 0].checked = false;
-        document.getElementsByName('edit_status')[index].checked = true;
-        document.getElementById('jurusan').value = jurusan;
-
-
-        console.log('test');
-      });
-    }
-
-    const closeModalEdit = document.querySelectorAll('.close-modal-edit');
-    for (var i = 0; i < closeModalEdit.length; i++) {
-      document.querySelectorAll('.bg-edit')[i].addEventListener('click', function() {
-        modalEdit.classList.add('hidden')
-
-      });
-      closeModalEdit[i].addEventListener('click', function() {
-        modalEdit.classList.add('hidden')
-      });
-    }
-
-    const jkButtonEdit = document.getElementsByName('edit_jenis_kelamin');
-    const labelJkEdit = document.getElementsByClassName('label_edit_jenis_kelamin');
-    labelJkEdit[0].addEventListener('click', function() {
-      jkButtonEdit[0].checked = true;
-      jkButtonEdit[1].checked = false;
-    });
-
-    labelJkEdit[1].addEventListener('click', function() {
-      jkButtonEdit[1].checked = true;
-      jkButtonEdit[0].checked = false;
-    });
-
-    const statusButtonEdit = document.getElementsByName('edit_status');
-    const labelStatusEdit = document.getElementsByClassName('label_edit_status');
-    labelStatusEdit[0].addEventListener('click', function() {
-      console.log('hello');
-      console.log('edit status', statusButtonEdit[0]);
-      statusButtonEdit[0].checked = true;
-      statusButtonEdit[1].checked = false;
-    });
-
-    labelStatusEdit[1].addEventListener('click', function() {
-      statusButtonEdit[1].checked = true;
-      statusButtonEdit[0].checked = false;
-    });
-  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+
 </body>
 
 </html>
