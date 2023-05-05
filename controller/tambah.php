@@ -7,17 +7,16 @@ $nama = $_POST["nama"];
 $jenis_kelamin = $_POST["jenis_kelamin"];
 $jurusan = $_POST["jurusan"];
 $email = $_POST["email"];
-$alamat = $_POST["alamat"];
-$no_hp = $_POST["no_hp"];
 
-// upload foto
-$foto  = upload();
-if(!$foto){
+
+// upload gambar
+$gambar  = upload();
+if(!$gambar){
   return false;
 }
 
 
-$sql = "INSERT INTO MAHASISWA (nrp, nama, jenis_kelamin, jurusan, email, alamat, no_hp, foto) VALUES ('$nrp', '$nama', '$jenis_kelamin', '$jurusan', '$email', '$alamat', '$no_hp', '$foto')";
+$sql = "INSERT INTO MAHASISWA (nrp, nama, jenis_kelamin, jurusan, email, gambar) VALUES ('$nrp', '$nama', '$jenis_kelamin', '$jurusan', '$email', '$gambar')";
 $query = mysqli_query($db, $sql);
 
 if ($query) {
@@ -27,10 +26,10 @@ if ($query) {
 }
 
 function upload(){
-  $fileName = $_FILES["foto"]["name"];
-  $fileSize = $_FILES["foto"]["size"];
-  $error = $_FILES["foto"]["error"];
-  $tmpName = $_FILES["foto"]["tmp_name"];
+  $fileName = $_FILES["gambar"]["name"];
+  $fileSize = $_FILES["gambar"]["size"];
+  $error = $_FILES["gambar"]["error"];
+  $tmpName = $_FILES["gambar"]["tmp_name"];
   $validExt = ['png', 'jpg', 'jpeg'];
   $tmp = explode(".", $fileName);
   $fileExt = strtolower(end($tmp));
@@ -45,14 +44,14 @@ $flag = true;
 
   if (!in_array($fileExt, $validExt)) {
     echo "<script>
-      alert('File foto harus berekstensi jpg, jpeg, atau png.');
+      alert('File gambar harus berekstensi jpg, jpeg, atau png.');
     </script>";
 $flag = true;
   }
 
   if ($fileSize > 3145728) {
     echo "<script>
-      alert('Ukuran foto tidak boleh melebihi 3 MB.');
+      alert('Ukuran gambar tidak boleh melebihi 3 MB.');
   </script>";
 $flag = true;
 }

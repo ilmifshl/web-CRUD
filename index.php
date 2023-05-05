@@ -77,7 +77,7 @@ $admins = query("SELECT * FROM ADMIN");
             <p>Sort</p>
             <i class='bx bx-sort-down pt-1'></i>
           </a>
-          <a href="." class="flex justify-center items-center bg-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-400 px-3 py-1 gap-x-1 rounded-md">
+          <a href="./form/tambah.php" class="flex justify-center items-center bg-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-400 px-3 py-1 gap-x-1 rounded-md">
             <p>Add</p>
             <i class='bx bx-plus pt-1'></i>
           </a>
@@ -147,7 +147,7 @@ $admins = query("SELECT * FROM ADMIN");
                   <td class="px-6 py-4 flex justify-center gap-x-2">
                     <a href="#" class="px-2 py-1.5 bg-[#20a85e] hover:bg-[#1a9653] rounded"><i class='bx bxs-download text-white'></i></a>
                     <a href="#" class="px-2 py-1.5 bg-[#20a85e] hover:bg-[#1a9653] rounded"><i class='bx bxs-edit text-white'></i></a>
-                    <a href="#" class="px-2 py-1.5 bg-[#dc2626] hover:bg-[#c22121] rounded"><i class='bx bxs-trash text-white'></i></a>
+                    <a href="controller/hapus.php?nrp=<?= $student["nrp"] ?>" class="px-2 py-1.5 bg-[#dc2626] hover:bg-[#c22121] rounded"><i class='bx bxs-trash text-white'></i></a>
                   </td>
                 </tr>
                 <?php $i++; ?>
