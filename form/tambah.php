@@ -28,10 +28,10 @@
 
                 <div class="grid w-full gap-2 my-2">
                     <div class="flex gap-x-6">
-                        <label class="w-2/5 flex justify-center items-center" for="jenis_kelamin">Jenis Kelamin</label>
+                        <label class="w-2/5 flex justify-center items-center font-medium text-md text-grey-900" for="jenis_kelamin">Jenis Kelamin</label>
 
                         <div class="w-full">
-                            <input type="radio" id="laki_laki" name="jenis_kelamin" value="laki_laki" class="hidden peer" required>
+                            <input type="radio" id="laki_laki" name="jenis_kelamin" value="laki-laki" class="hidden peer" required>
                             <label for="laki_laki" class="inline-flex items-center justify-between w-full p-2  text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer  peer-checked:border-green-600 peer-checked:text-green-600 hover:text-gray-600 hover:bg-gray-100">
                                 Laki-Laki
                             </label>
@@ -50,7 +50,7 @@
                     <label for="jurusan" class="block mb-2 text-sm font-medium text-gray-900">Pilih Jurusan</label>
                     <select id="countries" name="jurusan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         <option selected>Pilih Jurusan</option>
-                        <option value="Ieknik Informatika">Teknik Informatika</option>
+                        <option value="Teknik Informatika">Teknik Informatika</option>
                         <option value="Sains Data Terapan">Sains Data Terapan</option>
                     </select>
                 </div>
