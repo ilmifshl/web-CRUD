@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <title>Register Page</title>
 </head>
 
@@ -19,10 +20,22 @@
                 <p class="text-sm mt-1">Lorem ipsum dolor sit amet.</p>
 
                 <form action="" class="flex flex-col gap-2.5">
-                    <input class="p-2 mt-4 rounded-xl border" type="text" name="name" id="name" placeholder="Nama">
-                    <input class="p-2 rounded-xl border" type="username" name="username" id="username" placeholder="Username">
-                    <input class="p-2 rounded-xl border" type="email" name="email" id="email" placeholder="Email">
-                    <input class="p-2 rounded-xl border" type="password" name="password" placeholder="Password">
+                    <div class="relative mt-4">
+                        <input type="text" name="nama" id="nama" placeholder=" " class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-700 appearance-none focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " />
+                        <label for="email" class="absolute text-sm text-gray-500 bg-[#C0C9BA] duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Nama</label>
+                    </div>
+                    <div class="relative">
+                        <input type="text" name="username" id="username" placeholder=" " class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-700 appearance-none focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " />
+                        <label for="email" class="absolute text-sm text-gray-500 bg-[#C0C9BA] duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Username</label>
+                    </div>
+                    <div class="relative">
+                        <input type="email" name="email" id="email" placeholder=" " class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-700 appearance-none focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " />
+                        <label for="email" class="absolute text-sm text-gray-500 bg-[#C0C9BA] duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Email</label>
+                    </div>
+                    <div class="relative">
+                        <input type="password" name="password" placeholder=" " class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-700 appearance-none focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " />
+                        <label for="password" class="absolute text-sm text-gray-500 bg-[#C0C9BA] duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Password</label>
+                    </div>
                     <button class="bg-green-800 rounded-xl text-white py-2">Daftar</button>
                 </form>
 
@@ -40,6 +53,7 @@
             </div>
         </div>
     </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
 </body>
 
 </html>

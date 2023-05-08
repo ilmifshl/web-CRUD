@@ -21,8 +21,14 @@
                 <p class="text-sm mt-2">Lorem, ipsum dolor sit amet consectetur adipisicing.</p>
 
                 <form action="" class="flex flex-col gap-2.5">
-                    <input class="p-2 mt-4 rounded-xl border" type="email" name="email" id="email" placeholder="Email">
-                    <input class="p-2 rounded-xl border" type="password" name="password" placeholder="Password">
+                    <div class="relative mt-4">
+                        <input type="email" name="email" id="email" placeholder=" " class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-700 appearance-none focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " />
+                        <label for="email" class="absolute text-sm text-gray-500 bg-[#C0C9BA] duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Email</label>
+                    </div>
+                    <div class="relative">
+                        <input type="password" name="password" placeholder=" " class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-700 appearance-none focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " />
+                        <label for="password" class="absolute text-sm text-gray-500 bg-[#C0C9BA] duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Password</label>
+                    </div>
                     <div class="flex items-center mr-4">
                         <input checked id="green-checkbox" type="checkbox" value="" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2">
                         <label for="green-checkbox" class="ml-2 text-sm font-medium text-slate-700">Ingat saya</label>
