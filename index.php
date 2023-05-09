@@ -24,7 +24,7 @@ $users = query("SELECT * FROM USER");
       <!-- Logo -->
       <div class="flex text-center items-center justify-center pt-6 pb-4 px-4 gap-x-2">
         <img class="h-14 w-14" src="./image/school.png" alt="">
-        <h1 class="text-3xl text-slate-700 text-center font-semibold">PENS</h1>
+        <h1 class="text-2xl text-slate-700 text-center font-semibold">Learnology</h1>
       </div>
 
       <!-- Menu -->
@@ -54,7 +54,7 @@ $users = query("SELECT * FROM USER");
         <div class="flex items-center gap-x-4">
           <button id="dropdownDefaultButton" class="flex items-center" data-dropdown-toggle="dropdown">
             <img src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250" alt="" class="rounded-full w-9 mr-3">
-            <h2 class="font-semibold mr-5">Ujang Supriyadi</h2>
+            <h2 class="font-semibold mr-5">Daffaazhr</h2>
             <i class='bx bxs-chevron-down rounded cursor-pointer text-[#4b5563] pt-1'></i>
           </button>
           <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-[0_5px_20px_rgba(92,99,105,0.3)] w-44" style="left: -32px !important">
@@ -206,6 +206,9 @@ $users = query("SELECT * FROM USER");
                   <th scope="col" class="px-6 py-4 text-sm">
                     Email
                   </th>
+                  <th scope="col" class="px-6 py-4 text-sm">
+                    Role
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -213,7 +216,7 @@ $users = query("SELECT * FROM USER");
                 <?php foreach ($users as $user) : ?>
                   <tr class="bg-<?= $i % 2 == 1 ? 'white' : '[#F1F9F6]' ?>">
                     <td class="px-6 py-4 inline-flex items-center gap-x-3">
-                      <p><?= $j++ ?></p>
+                      <?= $j++ ?>
                     </td>
                     <td class="px-6 py-4">
                       <?= $user["nama"] ?>
@@ -223,6 +226,14 @@ $users = query("SELECT * FROM USER");
                     </td>
                     <td class="px-6 py-4">
                       <?= $user["email"] ?>
+                    </td>
+                    <td class="px-6 py-4">
+                      <label for="role" class="block text-sm font-medium text-gray-900"></label>
+                      <select id="role" name="role" class="block w-full p-1  text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-500 focus:border-green-500 ">
+                        <option value="guest" selected>guest</option>
+                        <option value="mahasiswa">Mahasiwa</option>
+                        <option value="lecturer">Dosen</option>
+                      </select>
                     </td>
                   </tr>
                 <?php endforeach ?>
