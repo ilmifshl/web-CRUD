@@ -1,11 +1,28 @@
 <?php
+session_start();
 include("../functions.php");
 
+if (!isset($_SESSION["login"])) {
+    header("Location: ../form/login.php");
+    exit;
+}
+
+if (isset($_SESSION["role"]) == "guest") {
+    header("Location: ../guest_page.php");
+    exit;
+} else if (isset($_SESSION["role"]) == "dosen") {
+    header("Location: ../dosen_page.php");
+    exit;
+} else if (isset($_SESSION["role"]) == "mahasiswa") {
+    header("Location: ../mahasiswa_page.php");
+    exit;
+}
+
 if (!isset($_GET["nrp"])) {
-  header("Location: ../index.php");
+    header("Location: ../index.php");
 } else {
-  $nrp = $_GET["nrp"];
-  $students = query("SELECT * FROM MAHASISWA WHERE nrp = $nrp")[0];
+    $nrp = $_GET["nrp"];
+    $students = query("SELECT * FROM MAHASISWA WHERE nrp = $nrp")[0];
 }
 ?>
 
@@ -27,7 +44,7 @@ if (!isset($_GET["nrp"])) {
             <p class="mt-4  mb-6 text-center text-3xl font-bold">Edit Data Mahasiswa</p>
 
             <form class="" action="../controller/edit.php" method="POST" enctype="multipart/form-data">
-            <div class="grid gap-6 md:grid-cols-2 mb-4 mt-4">
+                <div class="grid gap-6 md:grid-cols-2 mb-4 mt-4">
                     <div class="relative">
                         <input type="text" id="nrp" name="nrp" value="<?= $students["nrp"] ?>" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " required />
                         <label for="nrp" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">NRP</label>

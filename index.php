@@ -1,5 +1,22 @@
 <?php
+session_start();
 include("functions.php");
+
+if (!isset($_SESSION["login"])) {
+
+  header("Location: ./form/login.php");
+  exit;
+}
+if ($_SESSION["role"] == "mahasiswa") {
+    header("Location: mahasiswa_page.php");
+    exit;
+} else if ($_SESSION["role"] == "guest") {
+    header("Location: guest_page.php");
+    exit;
+} else if ($_SESSION["role"] == "dosen") {
+    header("Location: dosen_page.php");
+    exit;
+}
 
 $students = query("SELECT * FROM MAHASISWA");
 $users = query("SELECT * FROM USER");
@@ -54,7 +71,7 @@ $users = query("SELECT * FROM USER");
         <div class="flex items-center gap-x-4">
           <button id="dropdownDefaultButton" class="flex items-center" data-dropdown-toggle="dropdown">
             <img src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250" alt="" class="rounded-full w-9 mr-3">
-            <h2 class="font-semibold mr-5">Daffaazhr</h2>
+            <h2 class="font-semibold mr-5"><?= $_SESSION["username"] ?></h2>
             <i class='bx bxs-chevron-down rounded cursor-pointer text-[#4b5563] pt-1'></i>
           </button>
           <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-[0_5px_20px_rgba(92,99,105,0.3)] w-44" style="left: -32px !important">
@@ -214,7 +231,7 @@ $users = query("SELECT * FROM USER");
               <tbody>
                 <?php $j = 1; ?>
                 <?php foreach ($users as $user) : ?>
-                  <tr class="bg-<?= $i % 2 == 1 ? 'white' : '[#F1F9F6]' ?>">
+                  <tr class="bg-<?= $j % 2 == 0 ? 'white' : '[#F1F9F6]' ?>">
                     <td class="px-6 py-4 inline-flex items-center gap-x-3">
                       <?= $j++ ?>
                     </td>
@@ -228,12 +245,14 @@ $users = query("SELECT * FROM USER");
                       <?= $user["email"] ?>
                     </td>
                     <td class="px-6 py-4">
-                      <label for="role" class="block text-sm font-medium text-gray-900"></label>
-                      <select id="role" name="role" class="block w-full p-1  text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-500 focus:border-green-500 ">
-                        <option value="guest" selected>guest</option>
-                        <option value="mahasiswa">Mahasiwa</option>
-                        <option value="lecturer">Dosen</option>
-                      </select>
+                      <form action="">
+                        <label for="role" class="block text-sm font-medium text-gray-900"></label>
+                        <select id="role" name="role" class="block w-full p-1  text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-500 focus:border-green-500 ">
+                          <option <?= $user["role"] == "guest" ? "selected" : "" ?>>guest</option>
+                          <option <?= $user["role"] == "mahasiswa" ? "selected" : "" ?>>Mahasiwa</option>
+                          <option <?= $user["role"] == "dosen" ? "selected" : "" ?>>Dosen</option>
+                        </select>
+                      </form>
                     </td>
                   </tr>
                 <?php endforeach ?>

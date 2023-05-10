@@ -1,3 +1,23 @@
+<?php
+session_start();
+include("../functions.php");
+
+if (!isset($_SESSION["login"])) {
+    header("Location: ../form/login.php");
+    exit;
+}
+if (isset($_SESSION["role"]) == "guest") {
+    header("Location: ../guest_page.php");
+    exit;
+} else if (isset($_SESSION["role"]) == "dosen") {
+    header("Location: ../dosen_page.php");
+    exit;
+} else if (isset($_SESSION["role"]) == "mahasiswa") {
+    header("Location: ../mahasiswa_page.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

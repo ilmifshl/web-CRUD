@@ -15,11 +15,11 @@ function query($query)
 function addData($data)
 {
     global $db;
-    $nrp = $_POST["nrp"];
-    $nama = $_POST["nama"];
-    $jenis_kelamin = $_POST["jenis_kelamin"];
-    $jurusan = $_POST["jurusan"];
-    $email = $_POST["email"];
+    $nrp = $data["nrp"];
+    $nama = $data["nama"];
+    $jenis_kelamin = $data["jenis_kelamin"];
+    $jurusan = $data["jurusan"];
+    $email = $data["email"];
 
 
     // upload gambar
@@ -31,7 +31,7 @@ function addData($data)
 
 
     $sql = "INSERT INTO MAHASISWA (nrp, nama, jenis_kelamin, jurusan, email, gambar) VALUES ('$nrp', '$nama', '$jenis_kelamin', '$jurusan', '$email', '$gambar')";
-    $query = mysqli_query($db, $sql);
+    mysqli_query($db, $sql);
 
     return array("status" => mysqli_affected_rows($db), "result" => "Data berhasil ditambahkan");
 }
@@ -76,7 +76,7 @@ function registration($data)
   }
 
   $password = password_hash($password, PASSWORD_DEFAULT);
-  mysqli_query($db, "INSERT INTO USER VALUES(null, '$nama', '$username', '$email', '$password', 'guest')");
+  mysqli_query($db, "INSERT INTO USER VALUES('$email', '$password', '$nama', '$username', 'guest')");
 
   return array("status" => mysqli_affected_rows($db), "result" => "Silakan lakukan login untuk melanjutkan");
 }

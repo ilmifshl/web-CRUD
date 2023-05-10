@@ -1,3 +1,34 @@
+<?php
+session_start();
+include("../connect.php");
+
+if (isset($_COOKIE["id"]) && isset($_COOKIE["key"])) {
+    $id = $_COOKIE["id"];
+    $key = $_COOKIE["key"];
+
+    $result = mysqli_query($db, "SELECT username FROM user WHERE user_id = $id");
+    $row = mysqli_fetch_assoc($result);
+
+    if ($key === hash("sha256", $row["username"])) {
+        $_SESSION["login"] = true;
+    }
+}
+
+if (isset($_SESSION["login"])) {
+    if (isset($_SESSION["role"]) == 'guest') {
+        $_SESSION["role"] = 'guest';
+        header("Location: ../guest_page.php");
+        exit;
+    } else if ($row["role"] == "dosen") {
+        $_SESSION["role"] = "dosen";
+        header("Location: ../dosen_page.php");
+        exit;
+    }
+    header("Location: ../index.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +46,7 @@
         <div class="w-1/2 my-24">
             <p class="  mb-6 text-center text-3xl font-bold">Login</p>
 
-            <form class="" action="../controller/tambah.php" method="POST" enctype="multipart/form-data">
+            <form class="" action="../controller/login.php" method="POST" enctype="multipart/form-data">
                 <div class="my-4">
                     <div class="relative">
                         <input type="email" name="email" id="email" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " required />
@@ -30,7 +61,7 @@
                     </div>
                 </div>
                 <div class="flex items-center mr-4 mb-4">
-                    <input checked id="green-checkbox" type="checkbox" value="" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2">
+                    <input name="remember" id="green-checkbox" type="checkbox" value="" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2">
                     <label for="green-checkbox" class="ml-2 text-sm font-medium text-slate-700">Ingat saya</label>
                 </div>
 
