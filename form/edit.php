@@ -7,13 +7,13 @@ if (!isset($_SESSION["login"])) {
     exit;
 }
 
-if (isset($_SESSION["role"]) == "guest") {
+if ($_SESSION["role"] == "guest") {
     header("Location: ../guest_page.php");
     exit;
-} else if (isset($_SESSION["role"]) == "dosen") {
+} else if ($_SESSION["role"] == "dosen") {
     header("Location: ../dosen_page.php");
     exit;
-} else if (isset($_SESSION["role"]) == "mahasiswa") {
+} else if ($_SESSION["role"] == "mahasiswa") {
     header("Location: ../mahasiswa_page.php");
     exit;
 }

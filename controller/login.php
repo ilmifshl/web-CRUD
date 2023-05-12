@@ -12,9 +12,10 @@ if (isset($_POST["login"])) {
     if (password_verify($password, $row["password"])) {
       $_SESSION["login"] = true;
       $_SESSION["username"] = $row["username"];
+      $_SESSION["email"] = $row["email"];
 
       if (isset($_POST["remember"])) {
-        setcookie("id", $row["user_id"], time() + 86400, "/");
+        setcookie("email", $row["email"], time() + 86400, "/");
         setcookie("key", hash("sha256", $row["username"]), time() + 86400, "/");
       }
 
@@ -22,21 +23,25 @@ if (isset($_POST["login"])) {
         $_SESSION["role"] = "guest";
         header("Location: ../guest_page.php");
         exit;
-      }
-      else if ($row["role"] == "dosen"){
+      } else if ($row["role"] == "dosen"){
         $_SESSION["role"] = "dosen";
         header("Location: ../dosen_page.php");
         exit;
+      } else if ($row["role"] == "mahasiswa"){
+        $_SESSION["role"] = "mahasiswa";
+        header("Location: ../mahasiswa_page.php");
+        exit;
+      } else {
+        $_SESSION["role"] = "admin";
+        header("Location: ../index.php");
+        exit;
       }
-      
-      header("Location: ../index.php");
-      exit;
     } else {
-   //   $_SESSION["error_message"] = "Username atau password salah";
+      $_SESSION["error_message"] = "Username atau password salah";
       header("Location: ../form/login.php");
     }
   } else {
-   // $_SESSION["error_message"] = "Username/email tidak ditemukan";
+    $_SESSION["error_message"] = "Username/email tidak ditemukan";
     header("Location: ../form/login.php");
   }
 } else {

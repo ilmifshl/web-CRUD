@@ -35,6 +35,7 @@ function addData($data)
 
     return array("status" => mysqli_affected_rows($db), "result" => "Data berhasil ditambahkan");
 }
+
 function upload()
 {
     $fileName = $_FILES["gambar"]["name"];
@@ -79,4 +80,20 @@ function registration($data)
   mysqli_query($db, "INSERT INTO USER VALUES('$email', '$password', '$nama', '$username', 'guest')");
 
   return array("status" => mysqli_affected_rows($db), "result" => "Silakan lakukan login untuk melanjutkan");
+}
+
+function addSubject($data)
+{
+    global $db;
+    $email = $_SESSION["email"];
+    $subject_name = $data["subject_name"];
+    $major = $data["major"];
+    $queryLecturer = mysqli_query($db, "SELECT lecturer_id FROM lecturer WHERE email = '$email'");
+    $row = mysqli_fetch_assoc($queryLecturer);
+    $lecturerId = $row["lecturer_id"];
+
+    $sql = "INSERT INTO SUBJECT (subject_id, lecturer_id, major, subject_name) VALUES (null, '$lecturerId', '$major', '$subject_name')";
+    mysqli_query($db, $sql);
+
+    return array("status" => mysqli_affected_rows($db), "result" => "Data berhasil ditambahkan");
 }

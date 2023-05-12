@@ -7,6 +7,7 @@ if (!isset($_SESSION["login"])) {
   header("Location: ./form/login.php");
   exit;
 }
+
 if ($_SESSION["role"] == "mahasiswa") {
     header("Location: mahasiswa_page.php");
     exit;
@@ -16,7 +17,7 @@ if ($_SESSION["role"] == "mahasiswa") {
 } else if ($_SESSION["role"] == "dosen") {
     header("Location: dosen_page.php");
     exit;
-}
+} 
 
 $students = query("SELECT * FROM MAHASISWA");
 $users = query("SELECT * FROM USER");
@@ -68,7 +69,7 @@ $users = query("SELECT * FROM USER");
           <button id="search-button" class="absolute inset-y-[20%] left-2 text-lg"><i class='bx bx-search'></i></button>
         </div>
 
-        <div class="flex items-center gap-x-4">
+        <div class="flex items-center gap-x-4 mr-4">
           <button id="dropdownDefaultButton" class="flex items-center" data-dropdown-toggle="dropdown">
             <img src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250" alt="" class="rounded-full w-9 mr-3">
             <h2 class="font-semibold mr-5"><?= $_SESSION["username"] ?></h2>
@@ -146,7 +147,7 @@ $users = query("SELECT * FROM USER");
                 <?php foreach ($students as $student) : ?>
                   <tr class="bg-<?= $i % 2 == 1 ? 'white' : '[#F1F9F6]' ?>">
                     <td class="px-6 py-4 inline-flex items-center gap-x-3">
-                      <img src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250" alt="" class="w-10 rounded-full">
+                      <img src="./image/<?= $student["gambar"] ?>" alt="" class="w-10 rounded-full">
                       <p><?= $student["nama"] ?></p>
                     </td>
                     <td class="px-6 py-4">

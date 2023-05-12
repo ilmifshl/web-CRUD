@@ -6,6 +6,7 @@ if (!isset($_SESSION["login"])) {
   header("Location: ./form/login.php");
   exit;
 }
+
 if ($_SESSION["role"] == "dosen") {
     header("Location: dosen_page.php");
     exit;

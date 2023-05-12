@@ -2,11 +2,11 @@
 session_start();
 include("../connect.php");
 
-if (isset($_COOKIE["id"]) && isset($_COOKIE["key"])) {
-    $id = $_COOKIE["id"];
+if (isset($_COOKIE["email"]) && isset($_COOKIE["key"])) {
+    $email = $_COOKIE["email"];
     $key = $_COOKIE["key"];
 
-    $result = mysqli_query($db, "SELECT username FROM user WHERE user_id = $id");
+    $result = mysqli_query($db, "SELECT username FROM user WHERE email = $email");
     $row = mysqli_fetch_assoc($result);
 
     if ($key === hash("sha256", $row["username"])) {
@@ -23,6 +23,10 @@ if (isset($_SESSION["login"])) {
         $_SESSION["role"] = "dosen";
         header("Location: ../dosen_page.php");
         exit;
+    } else if ($row["role"] == "mahasiswa") {
+        $_SESSION["role"] = "mahasiswa";
+        header("Location: ../mahasiswa_page.php");
+        exit;
     }
     header("Location: ../index.php");
     exit;
@@ -37,15 +41,32 @@ if (isset($_SESSION["login"])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <title>Login</title>
 </head>
 
-<body class="bg-slate-100 flex justify-center items-center">
+<body class="bg-slate-100 flex justify-center items-center relative">
+    <?php if (isset($_SESSION["logout_message"])) : ?>
+        <div id="toast-success" class="absolute top-4 right-2 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow " role="alert">
+            <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg ">
+                <i class='bx bx-check text-2xl'></i>
+            </div>
+            <div class="ml-3 text-sm font-normal"><?= $_SESSION["logout_message"] ?></div>
+            <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 " data-dismiss-target="#toast-success" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+    <?php endif ?>
     <div class="flex justify-center items-center bg-white w-1/2 h-1/2 my-14 rounded-lg">
         <div class="w-1/2 my-24">
-            <p class="  mb-6 text-center text-3xl font-bold">Login</p>
-
+            <p class=" text-center text-3xl font-bold">Login</p>
+            <?php if (isset($_SESSION["error_message"])) : ?>
+                <p class="mt-2 mb-4 text-red-600 text-center"><?= $_SESSION["error_message"] ?></p>
+            <?php endif ?>
             <form class="" action="../controller/login.php" method="POST" enctype="multipart/form-data">
                 <div class="my-4">
                     <div class="relative">
@@ -82,3 +103,7 @@ if (isset($_SESSION["login"])) {
 </body>
 
 </html>
+
+<?php
+unset($_SESSION["logout_message"]);
+?>
