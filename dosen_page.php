@@ -65,7 +65,7 @@ $subjects = query("SELECT * FROM SUBJECT");
             <div class="mt-4 mx-8 flex justify-between">
                 <div>
                     <p class="font-bold text-3xl">Lecturer Dashboard</p>
-                    <p class="font-normal text-sm text-slate-500">Halo, User!</p>
+                    <p class="font-normal text-md text-slate-500">Halo, <?= $_SESSION["username"]?>!</p>
                 </div>
                 <div class="flex">
                     <button type="button" class="relative inline-flex items-center px-2 h-10 text-sm font-medium text-center text-white bg-white rounded-lg hover:bg-slate-200 focus:ring-4 focus:outline-none focus:ring-slate-500 shadow-lg border border-gray-100">

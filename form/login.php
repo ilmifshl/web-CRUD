@@ -106,4 +106,5 @@ if (isset($_SESSION["login"])) {
 
 <?php
 unset($_SESSION["logout_message"]);
+unset($_SESSION["error_message"]);
 ?>
