@@ -16,7 +16,6 @@ function addData($data)
 {
     global $db;
     $nrp = $data["nrp"];
-    $nama = $data["nama"];
     $jenis_kelamin = $data["jenis_kelamin"];
     $jurusan = $data["jurusan"];
     $email = $data["email"];
@@ -30,7 +29,7 @@ function addData($data)
     }
 
 
-    $sql = "INSERT INTO MAHASISWA (nrp, nama, jenis_kelamin, jurusan, email, gambar) VALUES ('$nrp', '$nama', '$jenis_kelamin', '$jurusan', '$email', '$gambar')";
+    $sql = "INSERT INTO MAHASISWA (nrp, jenis_kelamin, jurusan, email, gambar) VALUES ('$nrp', '$jenis_kelamin', '$jurusan', '$email', '$gambar')";
     mysqli_query($db, $sql);
 
     return array("status" => mysqli_affected_rows($db), "result" => "Data berhasil ditambahkan");
@@ -74,7 +73,7 @@ function registration($data)
 
   if( $password !==  $confirm_password){
     return false;
-  }
+  }     
 
   $password = password_hash($password, PASSWORD_DEFAULT);
   mysqli_query($db, "INSERT INTO USER VALUES('$email', '$password', '$nama', '$username', 'guest')");
@@ -88,11 +87,11 @@ function addSubject($data)
     $email = $_SESSION["email"];
     $subject_name = $data["subject_name"];
     $major = $data["major"];
-    $queryLecturer = mysqli_query($db, "SELECT lecturer_id FROM lecturer WHERE email = '$email'");
+    $queryLecturer = mysqli_query($db, "SELECT * FROM lecturer WHERE email = '$email'");
     $row = mysqli_fetch_assoc($queryLecturer);
-    $lecturerId = $row["lecturer_id"];
+    $lecturerId = $row["nip"];
 
-    $sql = "INSERT INTO SUBJECT (subject_id, lecturer_id, major, subject_name) VALUES (null, '$lecturerId', '$major', '$subject_name')";
+    $sql = "INSERT INTO SUBJECT (subject_id, nip, major, subject_name) VALUES (null, '$lecturerId', '$major', '$subject_name')";
     mysqli_query($db, $sql);
 
     return array("status" => mysqli_affected_rows($db), "result" => "Data berhasil ditambahkan");

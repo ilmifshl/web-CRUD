@@ -7,7 +7,7 @@ if (isset($_POST["tambah_subject"])) {
   $_SESSION["message"] = $result["result"];
   if ($result["status"] < 0)
     $_SESSION["error"] = "error";
-  header("Location: ../dosen_page.php");
+  header("Location: ../lecturer/daftar_matkul.php");
 } else {
   die("Akses dilarang...");
 }

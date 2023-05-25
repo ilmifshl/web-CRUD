@@ -1,16 +1,16 @@
 <?php
 session_start();
-include("functions.php");
+include("./functions.php");
 
 if (!isset($_SESSION["login"])) {
   header("Location: ./form/login.php");
   exit;
 }
 if ($_SESSION["role"] == "mahasiswa") {
-  header("Location: mahasiswa_page.php");
+  header("Location: ./student");
   exit;
 } else if ($_SESSION["role"] == "dosen") {
-  header("Location: dosen_page.php");
+  header("Location: ./lecturer");
   exit;
 } else if ($_SESSION["role"] == "admin") {
   header("Location: index.php");
@@ -27,7 +27,7 @@ if ($_SESSION["role"] == "mahasiswa") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <title>Document</title>
+  <title>Guest Page</title>
 </head>
 
 <body>

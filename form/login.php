@@ -21,11 +21,11 @@ if (isset($_SESSION["login"])) {
         exit;
     } else if ($row["role"] == "dosen") {
         $_SESSION["role"] = "dosen";
-        header("Location: ../dosen_page.php");
+        header("Location: ../lecturer/");
         exit;
     } else if ($row["role"] == "mahasiswa") {
         $_SESSION["role"] = "mahasiswa";
-        header("Location: ../mahasiswa_page.php");
+        header("Location: ../student/");
         exit;
     }
     header("Location: ../index.php");
@@ -87,7 +87,7 @@ if (isset($_SESSION["login"])) {
                 </div>
 
                 <div class="flex justify-center items-center">
-                    <button type="submit" name="login" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-16 py-2.5 text-center ">Login</button>
+                    <button type="submit" name="login" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-16 py-2.5 text-center transition duration-200">Login</button>
                 </div>
                 <div class="flex items-center m-2">
                     <div class="border border-gray-500 flex-grow"></div>

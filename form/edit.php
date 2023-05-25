@@ -11,10 +11,10 @@ if ($_SESSION["role"] == "guest") {
     header("Location: ../guest_page.php");
     exit;
 } else if ($_SESSION["role"] == "dosen") {
-    header("Location: ../dosen_page.php");
+    header("Location: ../lecturer");
     exit;
 } else if ($_SESSION["role"] == "mahasiswa") {
-    header("Location: ../mahasiswa_page.php");
+    header("Location: ../student");
     exit;
 }
 
@@ -93,7 +93,7 @@ if (!isset($_GET["nrp"])) {
 
                 <div class="mt-2 mb-4 ">
                     <label class="block mb-2 text-sm font-medium text-gray-900" for="gambar">Foto Profile</label>
-                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none" id="file_input" type="file">
+                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none" id="file_input" type="file" value="<?= $students["gambar"] ?>">
                     <p class="mt-1 text-sm text-gray-500" id="file_input_help">PNG, JPG, atau JPEG (MAX. 3 MB).</p>
                 </div>
 

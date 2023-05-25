@@ -10,12 +10,16 @@ if ($_SESSION["role"] == "guest") {
     header("Location: ../guest_page.php");
     exit;
 } else if ($_SESSION["role"] == "dosen") {
-    header("Location: ../dosen_page.php");
+    header("Location: ../lecturer/lecturer.php");
     exit;
 } else if ($_SESSION["role"] == "mahasiswa") {
-    header("Location: ../mahasiswa_page.php");
+    header("Location: ../student/student.php");
     exit;
 }
+
+$tambahMhs = query("SELECT *, u.email AS user_email, u.nama AS user_name FROM USER u
+                      LEFT JOIN MAHASISWA m ON u.email=m.email
+                      WHERE u.role='mahasiswa' AND m.email IS NULL");
 ?>
 
 <!DOCTYPE html>
@@ -42,8 +46,13 @@ if ($_SESSION["role"] == "guest") {
                         <label for="nrp" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">NRP</label>
                     </div>
                     <div class="relative">
-                        <input type="text" id="nama" name="nama" pattern="[A-Za-z ]+" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " required />
-                        <label for="nama" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Nama</label>
+                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900"></label>
+                        <select id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5" required>
+                            <option value="" selected>Pilih Mahasiswa</option>
+                            <?php foreach ($tambahMhs as $mhs) : ?>
+                                <option value="<?= $mhs["user_email"] ?>"><?= $mhs["user_name"] ?></option>
+                            <?php endforeach ?>
+                        </select>
                     </div>
                 </div>
 
@@ -74,13 +83,6 @@ if ($_SESSION["role"] == "guest") {
                         <option value="Teknik Informatika">Teknik Informatika</option>
                         <option value="Sains Data Terapan">Sains Data Terapan</option>
                     </select>
-                </div>
-
-                <div class="my-4">
-                    <div class="relative">
-                        <input type="email" name="email" id="email" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " required />
-                        <label for="email" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Email</label>
-                    </div>
                 </div>
 
                 <div class="mt-2 mb-4 ">

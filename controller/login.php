@@ -25,11 +25,11 @@ if (isset($_POST["login"])) {
         exit;
       } else if ($row["role"] == "dosen"){
         $_SESSION["role"] = "dosen";
-        header("Location: ../dosen_page.php");
+        header("Location: ../lecturer");
         exit;
       } else if ($row["role"] == "mahasiswa"){
         $_SESSION["role"] = "mahasiswa";
-        header("Location: ../mahasiswa_page.php");
+        header("Location: ../student");
         exit;
       } else {
         $_SESSION["role"] = "admin";
