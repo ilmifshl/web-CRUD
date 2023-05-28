@@ -13,7 +13,7 @@ $sql_enrollment = "DELETE FROM Enrollment WHERE nrp = '$nrp' AND subject_id = '$
 $query_enrollment = mysqli_query($db, $sql_enrollment);
 
 // Hapus data dari tabel score
-$sql_score = "DELETE FROM Score WHERE nrp = '$nrp' AND subject_id = '$subject_id'";
+$sql_score = "DELETE FROM Score WHERE nrp = '$nrp'";
 $query_score = mysqli_query($db, $sql_score);
 
 if ($query_enrollment && $query_score) {

@@ -62,6 +62,49 @@ function upload()
     return $newFileName;
 }
 
+function addFile($data)
+{
+    global $db;
+    $nrp = $data["nrp"];
+    $assignment_id = $data["assignment_id"];
+
+    // upload file
+    try {
+        $file = uploadFile();
+    } catch (Exception $e) {
+        return array("status" => -1, "result" => $e->getMessage());
+    }
+
+
+    $sql = "INSERT INTO SCORE (assignment_id, nrp, file) VALUES ('$assignment_id', '$nrp', '$file')";
+    mysqli_query($db, $sql);
+
+    return array("status" => mysqli_affected_rows($db), "result" => "Data berhasil ditambahkan");
+}
+
+function uploadFile()
+{
+    $fileName = $_FILES["file"]["name"];
+    $error = $_FILES["file"]["error"];
+    $tmpName = $_FILES["file"]["tmp_name"];
+    $validExt = ['pdf', 'docx', 'pptx'];
+    $tmp = explode(".", $fileName);
+    $fileExt = strtolower(end($tmp));
+
+    if ($error === 4) {
+        throw new Exception("Upload file gambar terlebih dahulu.");
+    }
+
+    if (!in_array($fileExt, $validExt)) {
+        throw new Exception("File gambar harus berekstensi docx, pptx, atau pdf.");
+    }
+
+
+    $newFileName = uniqid() . "." . $fileExt;
+    move_uploaded_file($tmpName, "../tugas/" . $newFileName);
+    return $newFileName;
+}
+
 function registration($data)
 {
   global $db;

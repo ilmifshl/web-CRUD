@@ -100,7 +100,7 @@ $subjects = query("SELECT * FROM SUBJECT
                     // Menghitung jumlah mahasiswa pada subject_id tertentu di tabel Score
                     include("../connect.php");
                     $subjectId = $subject['subject_id'];
-                    $query = "SELECT COUNT(DISTINCT nrp) AS total_mahasiswa FROM Score WHERE subject_id = '$subjectId'";
+                    $query = "SELECT COUNT(DISTINCT nrp) AS total_mahasiswa FROM enrollment WHERE subject_id = '$subjectId'";
                     $result = mysqli_query($db, $query);
                     $row = mysqli_fetch_assoc($result);
                     $totalMahasiswa = $row['total_mahasiswa'];

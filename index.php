@@ -213,7 +213,7 @@ $lecturers = query("SELECT * FROM LECTURER
                       <?= $student["email"] ?>
                     </td>
                     <td class="px-6 py-4 flex justify-center gap-x-2">
-                      <a href="" class="px-2 py-1.5 bg-[#20a85e] hover:bg-[#1a9653] rounded">
+                      <a href="controller/download.php?file=<?= $student["gambar"] ?>" class="px-2 py-1.5 bg-[#20a85e] hover:bg-[#1a9653] rounded">
                         <i class='bx bxs-download text-white'></i>
                       </a>
                       <a href="./form/edit.php?nrp=<?= $student['nrp'] ?>" class="px-2 py-1.5 bg-[#20a85e] hover:bg-[#1a9653] rounded">

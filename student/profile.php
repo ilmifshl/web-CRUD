@@ -83,20 +83,14 @@ $student = query("SELECT * FROM MAHASISWA
                     </div>
                 </div>
                 <div class="">
-                    <button type="button" class="flex justify-center items-center border border-slate-100 shadow shadow-lg hover:text-white text-slate-700 bg-white hover:bg-green-800 focus:outline-none focus:ring-1 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 transition duration-300">
-                        <p>Edit</p>
-                        <i class='bx bx-edit-alt ml-1'></i>
-                    </button>
+                    
 
                 </div>
             </div>
             <div class="bg-white border mt-4 rounded-lg px-4 mx-4">
                 <div class="flex justify-between items-center">
                     <p class="font-bold text-xl ">Personal Information</p>
-                    <button data-modal-target="popup-modal-edit-<?php echo $student['nrp'] ?>" data-modal-toggle="popup-modal-edit-<?php echo $student['nrp'] ?>" type="button" class="flex justify-center items-center border border-slate-100 shadow shadow-lg hover:text-white text-slate-700 bg-white hover:bg-green-800 focus:outline-none focus:ring-1 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 mt-4 transition duration-300">
-                        <p>Edit</p>
-                        <i class='bx bx-edit-alt ml-1'></i>
-                    </button>
+                    
                 </div>
                 <div class="flex gap-[26rem] ">
                     <div>

@@ -122,7 +122,7 @@ $lecturer = query("SELECT * FROM LECTURER WHERE email='$email'")[0];
                     </div>
                 </div>
             </div>
-            <div class="grid grid-cols-3 gap-12 mx-8 my-4">
+            <div class="grid grid-cols-3 gap-5 mx-8 my-4">
                 <div class="flex justify-between items-center items-center bg-green-50 shadow-lg rounded-lg py-6 px-8">
                     <div class="bg-white p-2 rounded-lg shadow">
                         <svg class="w-8 " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="mdi-account-multiple" viewBox="0 0 24 24">
@@ -158,7 +158,7 @@ $lecturer = query("SELECT * FROM LECTURER WHERE email='$email'")[0];
                     <p class="font-bold text-2xl">Mata Kuliah</p>
                     <a href="./daftar_matkul.php" class="mt-1 text-[#31553b] hover:text-[#161c18]">Lihat Detail</a>
                 </div>
-                <div class="gap-4 my-4 mx-8 grid grid-cols-3">
+                <div class="gap-5 my-4 mx-8 grid grid-cols-3">
                     <?php $counter = 0; ?>
 
                     <?php foreach ($subjects as $subject) : ?>
