@@ -107,22 +107,27 @@ function uploadFile()
 
 function registration($data)
 {
-  global $db;
-  $nama = $_POST["nama"];
-  $username = strtolower(stripslashes($data["username"]));
-  $email = $data["email"];
-  $password = mysqli_real_escape_string($db, $data["password"]);
-  $confirm_password = mysqli_real_escape_string($db, $data["confirmPassword"]);
+    global $db;
+    $nama = $_POST["nama"];
+    $username = strtolower(stripslashes($data["username"]));
+    $email = $data["email"];
+    $password = mysqli_real_escape_string($db, $data["password"]);
+    $confirm_password = mysqli_real_escape_string($db, $data["confirmPassword"]);
 
-  if( $password !==  $confirm_password){
-    return false;
-  }     
+    if ($password !== $confirm_password) {
+        return array("status" => "error", "message" => "Password tidak sama!");
+    }
 
-  $password = password_hash($password, PASSWORD_DEFAULT);
-  mysqli_query($db, "INSERT INTO USER VALUES('$email', '$password', '$nama', '$username', 'guest')");
+    $password = password_hash($password, PASSWORD_DEFAULT);
+    mysqli_query($db, "INSERT INTO USER VALUES('$email', '$password', '$nama', '$username', 'guest')");
 
-  return array("status" => mysqli_affected_rows($db), "result" => "Silakan lakukan login untuk melanjutkan");
+    if (mysqli_affected_rows($db) > 0) {
+        return array("status" => "success", "message" => "Silakan lakukan login untuk melanjutkan");
+    } else {
+        return array("status" => "error", "message" => "Registration failed");
+    }
 }
+
 
 function addSubject($data)
 {

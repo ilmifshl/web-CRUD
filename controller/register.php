@@ -1,13 +1,24 @@
 <?php
+session_start();
 include("../functions.php");
 
 if (isset($_POST["register"])) {
     $result = registration($_POST);
-    $_SESSION["message"] = $result["result"];
-    if ($result > 0)
-         header("Location: ../form/login.php");
-     else
-         header("Location: ../form/register.php");
+    if ($result["status"] === "error") {
+        $_SESSION["message"] = $result["message"];
+        header("Location: ../form/register.php");
+        exit;
+    } elseif ($result["status"] === "success") {
+        $_SESSION["message"] = $result["message"];
+        header("Location: ../form/login.php");
+        exit;
+    } else {
+        $_SESSION["message"] = "Registration failed";
+        header("Location: ../form/register.php");
+        exit;
+    }
 } else {
-     header("Location: ../form/register.php");
+    header("Location: ../form/register.php");
+    exit;
 }
+?>

@@ -145,7 +145,7 @@ $subjects = query("SELECT * FROM subject");
                                 </div>
                             </div>
                             <div class="bg-[#31553b] w-32 h-8 text-white py-1 px-3 mt-2 rounded-lg group-hover:bg-white group-hover:text-[#31553b] transition duration-200">
-                                <p class="text-sm flex justify-between"><i class='bx bxs-user pt-1'></i><?= $totalTugas ?> Tugas</p>
+                                <p class="text-sm flex justify-between"><i class='bx bxs-book-alt pt-1'></i><?= $totalTugas ?> Tugas</p>
                             </div>
                         </a>
                         <!-- Modal Drop Matkul -->
