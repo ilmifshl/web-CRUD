@@ -14,7 +14,7 @@ if ($_SESSION["role"] == "dosen") {
     header("Location: ../guest_page.php");
     exit;
 } else if ($_SESSION["role"] == "admin") {
-    header("Location: ../index.php");
+    header("Location: ../admin.php");
     exit;
 }
 
@@ -30,6 +30,9 @@ $subjects = query("SELECT s.subject_id, u.nama, s.subject_name
                     JOIN USER u ON l.email = u.email
                     LEFT JOIN ENROLLMENT e ON s.subject_id = e.subject_id AND e.nrp = '$nrp'
                     WHERE e.nrp IS NULL AND s.major='$jurusanMhs'");
+if (empty($subjects)) {
+    $message = "Belum ada kelas yang tersedia!";
+}
 
 
 ?>
@@ -82,6 +85,11 @@ $subjects = query("SELECT s.subject_id, u.nama, s.subject_name
                     <p class="font-bold text-3xl">Enroll</p>
                 </div>
             </div>
+            <?php if (!empty($message)) : ?>
+                <div class="text-center mt-8">
+                    <p class="font-bold text-lg mt-2"><?= $message ?></p>
+                </div>
+            <?php else : ?>
             <div class="gap-4 my-4 mx-8 grid grid-cols-4 ">
 
                 <?php foreach ($subjects as $subject) : ?>
@@ -124,7 +132,7 @@ $subjects = query("SELECT s.subject_id, u.nama, s.subject_name
                 <?php endforeach ?>
 
             </div>
-
+            <?php endif ?>
         </div>
     </div>
 

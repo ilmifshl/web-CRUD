@@ -14,13 +14,13 @@ if ($_SESSION["role"] == "mahasiswa") {
     header("Location: ../guest_page.php");
     exit;
 } else if ($_SESSION["role"] == "admin") {
-    header("Location: ../index.php");
+    header("Location: ../admin.php");
     exit;
 }
 
 
 if (!isset($_GET["assignment_id"])) {
-    header("Location: ../index.php");
+    header("Location: ../admin.php");
 } else {
     $assignment_id = $_GET["assignment_id"];
     $tugas = query("SELECT * FROM assignment WHERE assignment_id = '$assignment_id'")[0];

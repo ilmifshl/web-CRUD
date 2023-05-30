@@ -13,7 +13,7 @@ $sql = "UPDATE mahasiswa SET nrp='$nrp', nama = '$nama', jenis_kelamin = '$jenis
 $query = mysqli_query($db, $sql);
 
 if ($query) {
-  header("Location: ../index.php");
+  header("Location: ../admin.php");
 } else {
   header("Gagal menyimpan perubahan...");
 }

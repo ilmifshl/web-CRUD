@@ -11,7 +11,7 @@ if(isset($_POST["edit_role"])) {
     $query = mysqli_query($db, $sql);
     
     if ($query) {
-      header("Location: ../");
+      header("Location: ../admin.php");
     } else {
       header("Gagal menyimpan perubahan...");
     }

@@ -14,7 +14,7 @@ if ($_SESSION["role"] == "dosen") {
     header("Location: ../guest_page.php");
     exit;
 } else if ($_SESSION["role"] == "admin") {
-    header("Location: ../index.php");
+    header("Location: ../admin.php");
     exit;
 }
 
@@ -30,6 +30,10 @@ $enrolls = query("SELECT *, u.nama AS nama_dosen FROM ENROLLMENT e
                     JOIN USER u ON l.email = u.email
                     JOIN MAHASISWA m ON e.nrp = m.nrp
                       WHERE e.nrp = '$nrp'");
+
+if (empty($enrolls)) {
+    $message = "Anda belum terdaftar ke kelas apapun!";
+}
 
 $students = query("SELECT * FROM mahasiswa");
 $users = query("SELECT * FROM user");
@@ -111,60 +115,67 @@ $subjects = query("SELECT * FROM subject");
                 </div>
             </div>
 
-            <div class="grid grid-cols-3">
-                <?php foreach ($enrolls as $enroll) : ?>
-                    <?php
-                    // Menghitung jumlah tugas pada subject_id tertentu di tabel Assignment
-                    include("../connect.php");
-                    $tugasId = $enroll['subject_id'];
-                    $query = "SELECT COUNT(DISTINCT assignment_id) AS total_tugas FROM ASSIGNMENT WHERE subject_id = '$tugasId'";
-                    $result = mysqli_query($db, $query);
-                    $row = mysqli_fetch_assoc($result);
-                    $totalTugas = $row['total_tugas'];
-                    ?>
-                    <a href="./tugas.php?subject_id=<?= $enroll['subject_id'] ?>" class="group flex flex-col justify-between m-4 p-4 bg-white border border-gray-200 rounded-lg shadow hover:bg-[#31553b] hover:text-slate-200 transition duration-200">
-                        <div class="flex justify-between ">
-                            <div class="pr-2">
-                                <p class="font-bold text-lg"><?= $enroll["subject_name"] ?></p>
-                                <p class="font-light text-sm"><?= $enroll["nama_dosen"] ?></p>
+            <?php if (!empty($message)) : ?>
+                <div class="text-center mt-8">
+                    <p class="font-bold text-lg mt-2"><?= $message ?></p>
+                </div>
+            <?php else : ?>
+                <div class="grid grid-cols-3">
+
+                    <?php foreach ($enrolls as $enroll) : ?>
+                        <?php
+                        // Menghitung jumlah tugas pada subject_id tertentu di tabel Assignment
+                        include("../connect.php");
+                        $tugasId = $enroll['subject_id'];
+                        $query = "SELECT COUNT(DISTINCT assignment_id) AS total_tugas FROM ASSIGNMENT WHERE subject_id = '$tugasId'";
+                        $result = mysqli_query($db, $query);
+                        $row = mysqli_fetch_assoc($result);
+                        $totalTugas = $row['total_tugas'];
+                        ?>
+                        <a href="./tugas.php?subject_id=<?= $enroll['subject_id'] ?>" class="group flex flex-col justify-between m-4 p-4 bg-white border border-gray-200 rounded-lg shadow hover:bg-[#31553b] hover:text-slate-200 transition duration-200">
+                            <div class="flex justify-between ">
+                                <div class="pr-2">
+                                    <p class="font-bold text-lg"><?= $enroll["subject_name"] ?></p>
+                                    <p class="font-light text-sm"><?= $enroll["nama_dosen"] ?></p>
+                                </div>
+                                <div class="flex">
+                                    <button onclick="return false;" data-modal-target="popup-modal-delete-<?php echo $enroll['nrp'] ?>-<?php echo $enroll['subject_id'] ?>" data-modal-toggle="popup-modal-delete-<?php echo $enroll['nrp'] ?>-<?php echo $enroll['subject_id'] ?>" type="button" class="group/delete flex justify-center items-center ml-1 bg-white shadow-lg rounded-lg h-8 w-8 text-grey-900 hover:bg-red-600 group-hover:text-[#31553b] duration-200">
+                                        <i class='bx bxs-trash text-lg group-hover/delete:text-white'></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="flex">
-                                <button onclick="return false;" data-modal-target="popup-modal-delete-<?php echo $enroll['nrp'] ?>-<?php echo $enroll['subject_id'] ?>" data-modal-toggle="popup-modal-delete-<?php echo $enroll['nrp'] ?>-<?php echo $enroll['subject_id'] ?>" type="button" class="group/delete flex justify-center items-center ml-1 bg-white shadow-lg rounded-lg h-8 w-8 text-grey-900 hover:bg-red-600 group-hover:text-[#31553b] duration-200">
-                                    <i class='bx bxs-trash text-lg group-hover/delete:text-white'></i>
-                                </button>
+                            <div class="bg-[#31553b] w-32 h-8 text-white py-1 px-3 mt-2 rounded-lg group-hover:bg-white group-hover:text-[#31553b] transition duration-200">
+                                <p class="text-sm flex justify-between"><i class='bx bxs-user pt-1'></i><?= $totalTugas ?> Tugas</p>
                             </div>
-                        </div>
-                        <div class="bg-[#31553b] w-32 h-8 text-white py-1 px-3 mt-2 rounded-lg group-hover:bg-white group-hover:text-[#31553b] transition duration-200">
-                            <p class="text-sm flex justify-between"><i class='bx bxs-user pt-1'></i><?= $totalTugas ?> Tugas</p>
-                        </div>
-                    </a>
-                    <!-- Modal Drop Matkul -->
-                    <div id="popup-modal-delete-<?php echo $enroll['nrp'] ?>-<?php echo $enroll['subject_id'] ?>" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                        <div class="relative w-full max-w-md max-h-full">
-                            <div class="relative bg-white rounded-lg shadow">
-                                <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center transition duration-200" data-modal-hide="popup-modal-delete-<?php echo $enroll['nrp'] ?>-<?php echo $enroll['subject_id'] ?>">
-                                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="sr-only">Close modal</span>
-                                </button>
-                                <div class="p-6 text-center">
-                                    <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 " fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <h3 class="mb-5 text-lg font-normal text-gray-500 ">Apakah Anda yakin ingin menghapus data ini?</h3>
-                                    <a href="../controller/drop_matkul.php?subject_id=<?= $enroll["subject_id"] ?>">
-                                        <button data-modal-hide="popup-modal-delete" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 transition duration-200">
-                                            Ya, saya yakin.
-                                        </button>
-                                    </a>
-                                    <button data-modal-hide="popup-modal-delete-<?php echo $enroll['nrp'] ?>-<?php echo $enroll['subject_id'] ?>" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 transition duration-200">Tidak, batalkan.</button>
+                        </a>
+                        <!-- Modal Drop Matkul -->
+                        <div id="popup-modal-delete-<?php echo $enroll['nrp'] ?>-<?php echo $enroll['subject_id'] ?>" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                            <div class="relative w-full max-w-md max-h-full">
+                                <div class="relative bg-white rounded-lg shadow">
+                                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center transition duration-200" data-modal-hide="popup-modal-delete-<?php echo $enroll['nrp'] ?>-<?php echo $enroll['subject_id'] ?>">
+                                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span class="sr-only">Close modal</span>
+                                    </button>
+                                    <div class="p-6 text-center">
+                                        <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 " fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <h3 class="mb-5 text-lg font-normal text-gray-500 ">Apakah Anda yakin ingin menghapus data ini?</h3>
+                                        <a href="../controller/drop_matkul.php?subject_id=<?= $enroll["subject_id"] ?>">
+                                            <button data-modal-hide="popup-modal-delete" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 transition duration-200">
+                                                Ya, saya yakin.
+                                            </button>
+                                        </a>
+                                        <button data-modal-hide="popup-modal-delete-<?php echo $enroll['nrp'] ?>-<?php echo $enroll['subject_id'] ?>" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 transition duration-200">Tidak, batalkan.</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                <?php endforeach ?>
-            </div>
+                    <?php endforeach ?>
+                </div>
+            <?php endif ?>
 
         </div>
     </div>

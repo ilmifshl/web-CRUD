@@ -15,7 +15,7 @@ if (isset($_POST["tambah_dosen"])) {
   $sql = "INSERT INTO LECTURER (nip, email, gambar) VALUES ('$nip', '$email', '$gambar')";
   $query = mysqli_query($db, $sql);
   if ($query) {
-    header("Location: ../index.php");
+    header("Location: ../admin.php");
   } else {
     header("Gagal menyimpan perubahan...");
   }

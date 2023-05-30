@@ -13,7 +13,7 @@ if ($_SESSION["role"] == "mahasiswa") {
   header("Location: ./lecturer");
   exit;
 } else if ($_SESSION["role"] == "admin") {
-  header("Location: index.php");
+  header("Location: admin.php");
   exit;
 }
 ?>
@@ -39,7 +39,7 @@ if ($_SESSION["role"] == "mahasiswa") {
     <p>Harap menghubungi admin untuk mengganti role Anda.</p>
   </div>
   <div class="flex justify-center items-center mt-4">
-    <a href="./controller/logout.php" class="text-slate-600 border border-slate-200 bg-white hover:bg-red-600  hover:text-white focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 shadow-lg">Logout</a>
+    <a href="./controller/logout.php" class="text-slate-600 border border-slate-200 bg-white hover:bg-red-600  hover:text-white focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 shadow-lg transition duration-300">Logout</a>
   </div>
 </body>
 

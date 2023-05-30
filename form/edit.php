@@ -19,7 +19,7 @@ if ($_SESSION["role"] == "guest") {
 }
 
 if (!isset($_GET["nrp"])) {
-    header("Location: ../index.php");
+    header("Location: ../admin.php");
 } else {
     $nrp = $_GET["nrp"];
     $students = query("SELECT * FROM MAHASISWA WHERE nrp = $nrp")[0];

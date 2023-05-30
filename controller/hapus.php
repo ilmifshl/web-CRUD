@@ -8,7 +8,7 @@ if (isset($_GET["nrp"])) {
   $query = mysqli_query($db, $sql);
 
   if ($query) {
-    header("Location: ../index.php");
+    header("Location: ../admin.php");
   } else {
     die("Gagal menghapus...");
   }

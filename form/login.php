@@ -15,19 +15,6 @@ if (isset($_COOKIE["email"]) && isset($_COOKIE["key"])) {
 }
 
 if (isset($_SESSION["login"])) {
-    if (isset($_SESSION["role"]) == 'guest') {
-        $_SESSION["role"] = 'guest';
-        header("Location: ../guest_page.php");
-        exit;
-    } else if ($row["role"] == "dosen") {
-        $_SESSION["role"] = "dosen";
-        header("Location: ../lecturer/");
-        exit;
-    } else if ($row["role"] == "mahasiswa") {
-        $_SESSION["role"] = "mahasiswa";
-        header("Location: ../student/");
-        exit;
-    }
     header("Location: ../index.php");
     exit;
 }
@@ -62,6 +49,9 @@ if (isset($_SESSION["login"])) {
         </div>
     <?php endif ?>
     <div class="flex justify-center items-center bg-white w-1/2 h-1/2 my-14 rounded-lg">
+        <a href="../index.php" class="fixed top-[72px] left-[330px] border rounded-full py-2 px-3 w-10 h-10 text-green-700 hover:border-green-900 hover:text-white hover:bg-green-900 transition duration-300">
+            <i class='bx bx-arrow-back'></i>
+        </a>
         <div class="w-1/2 my-24">
             <p class=" text-center text-3xl font-bold">Login</p>
             <?php if (isset($_SESSION["error_message"])) : ?>

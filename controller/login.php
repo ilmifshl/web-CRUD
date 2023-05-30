@@ -33,7 +33,7 @@ if (isset($_POST["login"])) {
         exit;
       } else {
         $_SESSION["role"] = "admin";
-        header("Location: ../index.php");
+        header("Location: ../admin.php");
         exit;
       }
     } else {

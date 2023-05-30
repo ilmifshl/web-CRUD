@@ -14,7 +14,7 @@ if ($_SESSION["role"] == "dosen") {
     header("Location: ../guest_page.php");
     exit;
 } else if ($_SESSION["role"] == "admin") {
-    header("Location: ../index.php");
+    header("Location: ../admins.php");
     exit;
 }
 
